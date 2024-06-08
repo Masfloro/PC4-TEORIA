@@ -31,7 +31,7 @@ namespace PC4_TEORIA.Controllers
 
         public IActionResult PredictTrending(int id)
         {
-            List<(int productoId, float normalizedScore)> ratings = new List<(int productoId, float normalizedScore)>();
+            List<(int productoId, float Score)> ratings = new List<(int productoId, float Score)>();
             ProductoRatingPrediction prediction = null;
 
             foreach (var producto in _productoService.obtenerTendenciaProductos())
@@ -39,19 +39,16 @@ namespace PC4_TEORIA.Controllers
                 // Call the Rating Prediction for each movie prediction
                 prediction = _model.Predict(new ProductoRating
                 {
-                    ProductoId = producto.ProductoId,
-                    UserId = id,
+                    productoid = producto.ProductoId,
+                    userid = id,
                      // Asegúrate de que coincide con el nombre de la propiedad en ProductoRating
                 });
 
-                // Normalize the prediction scores for the "ratings" b/w 0 - 100
-                float normalizedscore = Sigmoid(prediction.Score);
-
                 // Add the score for recommendation of each movie in the trending movie list
-                ratings.Add((producto.ProductoId, normalizedscore));
+                ratings.Add((producto.ProductoId,prediction.score));
             }
 
-            ratings = ratings.OrderByDescending(r => r.normalizedScore).ToList();
+            ratings = ratings.OrderByDescending(r => r.Score).ToList();
 
             ViewData["ratings"] = ratings;
             ViewData["trendingproductos"] = _productoService.obtenerTendenciaProductos();
@@ -69,12 +66,12 @@ namespace PC4_TEORIA.Controllers
                 // Call the Rating Prediction for each movie prediction
                 prediction = _model.Predict(new ProductoRating
                 {
-                    UserId = id,
-                    ProductoId = producto.ProductoId // Asegúrate de que coincide con el nombre de la propiedad en ProductoRating
+                    userid = id,
+                    productoid = producto.ProductoId // Asegúrate de que coincide con el nombre de la propiedad en ProductoRating
                 });
 
                 // Normalize the prediction scores for the "ratings" b/w 0 - 100
-                float normalizedscore = Sigmoid(prediction.Score);
+                float normalizedscore = Sigmoid(prediction.score);
 
                 // Add the score for recommendation of each movie in the trending movie list
                 ratings.Add((producto.ProductoId, normalizedscore));

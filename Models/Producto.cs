@@ -11,6 +11,6 @@ namespace PC4_TEORIA.Models
 
         public String NombreProducto { get; set; }
 
-        public int Ranting { get; set; }
+        public Double Ranting;
     }
 }

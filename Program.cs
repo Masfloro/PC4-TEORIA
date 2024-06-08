@@ -47,6 +47,10 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.MapPost("/predict",
+    async (PredictionEnginePool<ProductoRating, ProductoRatingPrediction> predictionEnginePool, ProductoRating input) =>
+        await Task.FromResult(predictionEnginePool.Predict(input)));
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

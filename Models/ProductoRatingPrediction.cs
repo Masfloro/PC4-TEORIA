@@ -7,9 +7,9 @@ namespace PC4_TEORIA.Models
 {
     public class ProductoRatingPrediction
     {
-        public int ProductoId;
+        public float productoid;
 
-        public int Score;
+        public float score;
 
         
     }

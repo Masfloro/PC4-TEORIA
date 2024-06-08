@@ -8,9 +8,9 @@ namespace PC4_TEORIA.Models
     public class ProductoRating
     {
 
-        public int UserId;
-        public int ProductoId ;
+        public float userid;
+        public float productoid ;
 
-        public int Ranting;
+        public float Ranting;
     }
 }
