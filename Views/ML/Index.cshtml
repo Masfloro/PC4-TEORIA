@@ -1,6 +1,6 @@
 @{
-    ViewData["Title"] = "Análisis de Recomendaciones";
-    var ratings = ViewData["ratings"] as List<(int productoId, float normalizedScore)>;
+    ViewData["Title"] = "ANALISIS DE RECOMENDACIONES";
+    var ratings = ViewData["ratings"] as List<(int productoId, float Score)>;
     var productos = ViewData["productos"] as List<PC4_TEORIA.Models.Producto>;
 }
 
@@ -32,7 +32,7 @@
                 {
                     <tr>
                         <td>@producto.NombreProducto</td>
-                        <td>@rating.normalizedScore</td>
+                        <td>@rating</td>
                     </tr>
                 }
             }

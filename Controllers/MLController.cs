@@ -29,6 +29,18 @@ namespace PC4_TEORIA.Controllers
             _productoService = productoService;
         }
 
+        public IActionResult PredictTrending(){
+            return View("Trending");
+        }
+
+        public IActionResult Index(){
+            return View();
+        }
+
+
+
+
+        [HttpPost]
         public IActionResult PredictTrending(int id)
         {
             List<(int productoId, float Score)> ratings = new List<(int productoId, float Score)>();
@@ -48,14 +60,14 @@ namespace PC4_TEORIA.Controllers
                 ratings.Add((producto.ProductoId,prediction.score));
             }
 
-            ratings = ratings.OrderByDescending(r => r.Score).ToList();
+            ratings = ratings.ToList();
 
             ViewData["ratings"] = ratings;
             ViewData["trendingproductos"] = _productoService.obtenerTendenciaProductos();
             return View("Trending");
         }
 
-
+        [HttpPost]
         public IActionResult Predict(int id)
         {
             List<(int productoId, float normalizedScore)> ratings = new List<(int productoId, float normalizedScore)>();
@@ -92,9 +104,9 @@ namespace PC4_TEORIA.Controllers
 
 
 
-        public IActionResult Index()
+        public IActionResult Predict()
         {
-            return View();
+            return View("Index");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

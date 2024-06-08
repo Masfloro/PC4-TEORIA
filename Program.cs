@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.ML;
+using Microsoft.OpenApi.Models;
 using PC4_TEORIA.Data;
 using PC4_TEORIA.Models;
 using PC4_TEORIA.Services;
@@ -15,6 +16,11 @@ builder.Services.AddSingleton<ProductoService>();
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Description = "Docs for my API", Version = "v1" });
+});
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -46,6 +52,11 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+});
 
 app.MapPost("/predict",
     async (PredictionEnginePool<ProductoRating, ProductoRatingPrediction> predictionEnginePool, ProductoRating input) =>
