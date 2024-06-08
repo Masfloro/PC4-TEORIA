@@ -1,8 +1,20 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.ML;
 using PC4_TEORIA.Data;
+using PC4_TEORIA.Models;
+using PC4_TEORIA.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddPredictionEnginePool<ProductoRating, ProductoRatingPrediction>()
+    .FromFile("MLModel1.mlnet");
+
+builder.Services.AddSingleton<ProductoService>();
+
+builder.Services.AddControllersWithViews();
+
+builder.Services.AddEndpointsApiExplorer();
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
